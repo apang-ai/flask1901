@@ -77,6 +77,7 @@ nav li a:hover{
     border: 1px solid #555555;
     border-radius: 5px;
     outline: none;
+    margin-right: 5px;
 }
 
 .btn:hover{
@@ -95,4 +96,24 @@ nav li a:hover{
     background-color: #cce5ff;
     border-color: #b8daff;
     border-radius: 5px;
+}
+
+.btn-delete{
+    font-size: 12px;
+    padding: 1px 6px;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    border: 1px solid #555555;
+    border-radius: 5px;
+    outline: none;
+    margin-right: 5px;
+}
+
+.btn-delete:hover{
+    text-decoration: none;
+    background-color: black;
+    color: white;
+    border: 1px solid black;
 }
