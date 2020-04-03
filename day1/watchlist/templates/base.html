@@ -13,9 +13,12 @@
         <img class='avatar' src="{{ url_for('static', filename='images/avatar.jpg') }}" alt="">
         {{ user.name }}'s WatchList
     </h2>
+    {% for message in get_flashed_messages() %}
+        <div class='alert'>{{ message }}</div>
+    {% endfor %}
     <nav>
         <ul>
-            <li><a href="{{ url_for('index') }}"></a></li>
+            <li><a href="{{ url_for('index') }}">首页</a></li>
         </ul>
     </nav>
     {% block content %}{% endblock %}
