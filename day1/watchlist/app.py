@@ -68,6 +68,7 @@ def index():
     return render_template('index.html', movies=movies)
 
 
+# 更新电影信息
 @app.route('/movie/edit/<int:movie_id>', methods=['GET', 'POST'])
 def edit(movie_id):
 
@@ -90,6 +91,7 @@ def edit(movie_id):
     return render_template('edit.html', movie=movie)
 
 
+# 删除电影信息
 @app.route('/movie/delete/<int:movie_id>', methods=['GET', 'POST'])
 
 def delete(movie_id):
