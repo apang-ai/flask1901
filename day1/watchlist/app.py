@@ -5,7 +5,7 @@ from flask import Flask, render_template, flash, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy   #导入扩展类
 import click
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 
 WIN = sys.platform.startswith('win')
 
@@ -31,6 +31,7 @@ login_manager = LoginManager(app) # 实例化登录拓展类
 def load_user(user_id):
     user = User.query.get(int(user_id))
     return user
+login_manager.login_view = 'login'
 
 class User(db.Model, UserMixin):
 
@@ -66,6 +67,8 @@ def common_user():
 
 def index():
     if request.method == 'POST':
+        if not current_user.is_authenticated:
+            return redirect(url_for('index'))
         # request再请求触发的时候才会包含数据
         get_title = request.form.get('title')
         get_year = request.form.get('year')
@@ -160,6 +163,20 @@ def logout():
 
     return redirect(url_for('index'))
 
+#settings 设置
+@app.route('/settings', methods=['GET', 'POST'])
+@login_required
+def settings():
+    if request.method == 'POST':
+        name = request.form['name']
+        if not name or len(name)>20:
+            flash('输入错误')
+            return redirect(url_for('settings'))
+        current_user.name = name
+        db.session.commit()
+        flash('设置成功')
+        return redirect(url_for('index'))
+    return render_template('settings.html')
 
 # 自定义指令
 # 新建data.db初始化命令
