@@ -7,6 +7,7 @@ from flask_login import LoginManager
 
 app = Flask(__name__)
 
+
 WIN = sys.platform.startswith('win')
 if WIN:
     prefix = 'sqlite:///'
