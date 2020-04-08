@@ -28,6 +28,7 @@ db = SQLAlchemy(app)  # 初始化扩展类， 传入程序实例app
 login_manager = LoginManager(app) # 实例化登录拓展类
 @login_manager.user_loader
 def load_user(user_id):
+    from watchlistapp.models import User
     user = User.query.get(int(user_id))
     return user
 login_manager.login_view = 'login'
@@ -35,7 +36,7 @@ login_manager.login_view = 'login'
 # 模板上下文处理函数
 @app.context_processor
 def common_user():
-
+    from watchlistapp.models import User
     user = User.query.first()
 
     return dict(user=user)
