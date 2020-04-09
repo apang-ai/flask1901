@@ -18,7 +18,9 @@
         <div class='well'>
             <div class="dao-timer">
                 
-                <span>当前状态</span>:<span>{{ workState.WORK }}</span>
+                <span>当前状态</span>:
+                <span v-if='workState !== workState.WORK'>{{ workState.WORK }}</span>
+                <span v-else>{{ workState.REST }}</span>
 
             </div>
         </div>
