@@ -13,64 +13,27 @@
                     </ul>
                     <hr v-if='!product.last'/>                        
                 </template>
-                <!-- <ul>
-                    <li v-for='item in productList.pc.list'>
-                        <a v-bind:href="item.url">{{ item.title }}</a>
-                    </li>
-                </ul> -->
-                
-                <!-- <h3>手机应用类</h3>
-                <ul>
-                    <li v-for='item in productList.app.list'>
-                        <a v-bind:href="item.url">{{ item.title }}</a>
-                    </li>
-                </ul> -->
             </div>
             <div class="index-left-block lastest-news">
                 <h2>最新消息</h2>
-                <ul v-for='msg in newmsgs.list'>
+                <ul v-for='item in newsList'>
                     <li>
-                        <a v-bind:href="msg.url">{{ msg.title }}</a>
+                        <a v-bind:href="item.url">{{ item.title }}</a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class='index-right'>
-            <div style='width: 900px; height:300px; margin: 0 auto; background: red;'>slider</div>
+            <slider-component></slider-component>
             <div class='index-board-list'>
-                <div class='index-board-item' v-for='item in gongneng.list'>
-                    <img :src='item.imgurl' alt="">
+                <div class='index-board-item' v-for='item in boardList'>
+                    <img :src='item.saleout' alt="">
                     <div class='index-board-item-inner'>
                         <h2>{{ item.title }}</h2>
-                        <p>{{ item.content }}</p>
+                        <p>{{ item.description }}</p>
                         <div class='index-board-button'>立即购买</div>
                     </div>
                 </div>
-                <!-- <div class='index-board-item'>
-                    <img src="" alt="">
-                    <div class='index-board-item-inner'>
-                        <h2>戴尔电脑</h2>
-                        <p>戴尔电脑就是好</p>
-                        <div class='index-board-button'>立即购买</div>
-                    </div>
-                </div> -->
-                <!-- <div class='index-board-item'>
-                    <img src="../assets/car.png" alt="">
-                    <div class='index-board-item-inner'>
-                        <h2>戴尔电脑</h2>
-                        <p>戴尔电脑就是好</p>
-                        <div class='index-board-button'>立即购买</div>
-                    </div>
-                </div>
-                <div class='index-board-item'>
-                    <img src="../assets/jinzita.png" alt="">
-                    <div class='index-board-item-inner'>
-                        
-                        <h2>戴尔电脑</h2>
-                        <p>戴尔电脑就是好</p>
-                        <div class='index-board-button'>立即购买</div>
-                    </div>
-                </div> -->
                 
             </div>
         </div>
@@ -79,103 +42,48 @@
 </template>
 
 <script>
+import axios from "axios";
+import SliderComponent from './sliderComponent'
 export default {
+    components:{
+        SliderComponent
+    },
+    mounted() {
+        axios.get("api/getNewsList")
+        .then((response) => {
+            // handle success
+            console.log(response);
+            this.newsList = response.data.list
+        })
+        .catch((error) => {
+            // handle error
+            console.log(error);
+        });
+        axios.get('api/getProductList')
+        .then((response) => {
+            console.log(response)
+            this.productList = response.data
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+        axios.get('api/getBoardList')
+        .then((response) => {
+            console.log(response)
+            this.boardList = response.data
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    },
+
     data:function(){
 
         return {
-            productList: {
-                pc: {
-                    title: "PC产品",
-                    list: [
-                    {
-                        title: "数据统计",
-                        url: "http://starcraft.com"
-                    },
-                    {
-                        title: "数据预测",
-                        url: "http://warcraft.com"
-                    },
-                    {
-                        title: "流量分析",
-                        url: "http://overwatch.com",
-                        hot: true
-                    },
-                    {
-                        title: "广告发布",
-                        url: "http://hearstone.com"
-                    }   
-                    ]
-                },
-                app: {
-                    title: "手机应用类",
-                    last: true,
-                    list: [
-                    {
-                      title: "91助手",
-                      url: "http://weixin.com"
-                    },
-                    {
-                      title: "产品助手",
-                      url: "http://weixin.com",
-                    hot:true
-                    },
-                    {
-                      title: "智能地图",
-                      url: "http://maps.com"
-                    },
-                    {
-                      title: "语音助手",
-                      url: "http://phone.com",
-                    hot:true
-                    }
-                  ]
-                }
-            },
-            newmsgs: {
-                list: [
-                    {
-                        title: '杨坤diss惊雷',
-                        url:'https://baijiahao.baidu.com/s?id=1664030735516530339&wfr=spider&for=pc'
-                    },
-                    {
-                        title: '新冠病毒最新消息',
-                        url: 'http://www.stdaily.com/index/kejixinwen/2020-04/15/content_921587.shtml'
-                    },
-                    {
-                        title: '华为手机市场营销',
-                        url: 'https://baijiahao.baidu.com/s?id=1636635866999933325&wfr=spider&for=pc'
-                    },
-                    {
-                        title: '苹果手机最新动态',
-                        url: 'https://baijiahao.baidu.com/s?id=1662192615793738692&wfr=spider&for=pc'
-                    }
-                ]
-
-            },
-            gongneng: {
-                list: [
-                    {
-                        imgurl: '../src/assets/diqiu.png',
-                        title: '其共识会',
-                        content: '离委离究能族管观',
-                    },
-                    {
-                        imgurl: '../src/assets/laba.png',
-                        title: '认该学温',
-                        content: '处做一贯神作大号当前',
-                    },
-                    {
-                        imgurl: '../src/assets/car.png',
-                        title: '飞政与将',
-                        content: '给组织实缴大活动空',
-                    },
-                    {
-                        imgurl: '../src/assets/jinzita.png',
-                        title: '走把钱多',
-                        content: '立管体站市二院打开了',
-                    }
-                ]
-            }
+            newsList:[],
+            productList:null,
+            boardList:null,
+  
         }
 
     }
