@@ -135,6 +135,7 @@ export default {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
+        margin-top: 15px;
     }
     .index-board-item{
         width: 400px;
@@ -146,7 +147,7 @@ export default {
     .index-board-item-inner{
         height: 125px;
         padding-left: 120px;
-        /* background: url('../assets/car.png') no-repeat; */
+        background: url('../assets/car.png') no-repeat;
     }
     .index-board-item-inner h2{
         font-size: 18px;
